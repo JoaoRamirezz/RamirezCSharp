@@ -23,6 +23,8 @@ c.isOn = false;
 
 Console.WriteLine(nao.Saida);
 
+
+
 public abstract class Component
 {
     public abstract bool Saida { get; }
@@ -35,9 +37,11 @@ public abstract class Component
         this.Next = component;
         this.Next.ConnectInput(this);
     }
-
     public virtual void ConnectInput(Component component) { }
 }
+
+
+
 
 
 public class Entrada : Component
@@ -71,6 +75,10 @@ public class Entrada : Component
     }
 }
 
+
+
+
+
 public class EPorta : Component
 {
     private Component inputA = null;
@@ -103,6 +111,47 @@ public class EPorta : Component
             inputB = component;
     }
 }
+
+
+
+
+
+public class NaoEPorta : Component
+{
+    private Component inputA = null;
+    private Component inputB = null;
+    private bool value = false;
+
+    public override bool Saida
+    {
+        get
+        {
+            return value;
+        }
+    }
+
+    public override void Update()
+    {
+        bool newValue = !((inputA?.Saida ?? false) && (inputB?.Saida ?? false));
+        if (newValue == value)
+            return;
+        
+        value = newValue;
+        this.Next?.Update();
+    }
+
+    public override void ConnectInput(Component component)
+    {
+        if (inputA == null)
+            inputA = component;
+        else if (inputB == null)
+            inputB = component;
+    }
+}
+
+
+
+
 
 public class OuPorta : Component
 {
@@ -138,6 +187,9 @@ public class OuPorta : Component
 }
 
 
+
+
+
 public class NotPorta : Component
 {
     private Component inputA = null;
@@ -169,3 +221,54 @@ public class NotPorta : Component
 }
 
 
+
+
+
+public abstract class IntegratedCircuit
+{
+
+}
+
+
+
+
+
+public class HalfSum : IntegratedCircuit
+{
+    private Component carryOut = null;
+    private Component ResultOut = null;
+
+
+    public HalfSum()
+    {
+        XorGate cor = new XorGate();
+        AndGate and = new AndGate();
+
+    }
+
+
+    private Component inputA = null;
+    private Component inputB = null;
+
+
+    bool result = false;
+    bool carry = false;
+
+
+    public override bool Saida => ResultOut.Saida;
+
+    private public override void Update()
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void ConnectInput(Component component)
+    {
+        if(inputA == null)
+        {
+            this.inputA = component;
+            component.Connect(carryOut);
+            component.Connect(ResultOut);
+        }
+    }
+}
