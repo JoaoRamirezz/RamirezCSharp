@@ -4,12 +4,10 @@ for(int i = 0; i < 250; i++)
 {
     World.players[i] = new Cooperador();
 }
-
 for(int i = 250; i < 500; i++)
 {
     World.players[i] = new Egoista();
 }
-
 
 
 public class World
@@ -41,7 +39,6 @@ public class World
                 player1.Moedas += 3;
                 player2.Moedas -= 1;
             }
-            
         else if (player1.Moedas <= 0 || player2.Moedas <= 0)
             falidos++;
         else if (player1.Moedas <= 0 && player2.Moedas <= 0)
@@ -70,6 +67,7 @@ public class Cooperador : Player
     }
 }
 
+
 public class Egoista : Player
 {
 
@@ -80,6 +78,7 @@ public class Egoista : Player
         
     }
 }
+
 
 public class Remorse : Player
 {
@@ -94,6 +93,8 @@ public class Remorse : Player
         }
     }
 }
+
+
 public class CopyCat : Player
 {
     public bool copy = true;

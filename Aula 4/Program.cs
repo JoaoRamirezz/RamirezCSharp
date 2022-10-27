@@ -23,9 +23,6 @@ public abstract class Entity
 }
 
 
-
-
-
 public abstract class Weapon
 {
     public string Name {get; protected set;}
@@ -155,4 +152,3 @@ public class BolaDeFogo : Magic
         this.Custo = 20;
     }
 }
-
